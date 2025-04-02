@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">CallGate</string>
+    <string name="credentials">Credentials</string>
+    <string name="is_not_a_valid_port_must_be_between_1024_and_65535">%1$s is not a valid port. Must be between 1024 and 65535</string>
+    <string name="local_server_notifications">Local server notifications</string>
+    <string name="offline">Offline</string>
+    <string name="online">Online</string>
+    <string name="password">Password</string>
+    <string name="password_must_be_at_least_8_characters">Password must be at least 8 characters</string>
+    <string name="port">Port</string>
+    <string name="restart_required_to_apply_changes">Restart required to apply changes</string>
+    <string name="server">Server</string>
+    <string name="server_is_running_on_port_d">Server is running on port %d</string>
+    <string name="settings">Settings</string>
+    <string name="username">Username</string>
+    <string name="username_must_be_at_least_3_characters">Username must be at least 3 characters</string>
+    <string name="information">Information</string>
+    <string name="app_version_build">App version (build)</string>
+</resources>

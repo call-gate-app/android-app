@@ -1,0 +1,24 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <Preference
+        android:icon="@drawable/ic_server"
+        app:fragment="app.callgate.android.ui.settings.ServerSettingsFragment"
+        app:summary="Port, credentials, etc..."
+        app:title="Server..." />
+
+    <PreferenceCategory app:title="General">
+        <SwitchPreference
+            app:key="general.autostart"
+            app:title="Autostart" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/information">
+        <Preference
+            android:icon="@drawable/ic_info"
+            android:key="transient.app_version"
+            android:title="@string/app_version_build"
+            app:persistent="false"
+            app:selectable="false" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
