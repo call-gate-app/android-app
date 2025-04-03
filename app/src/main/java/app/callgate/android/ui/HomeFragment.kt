@@ -2,6 +2,7 @@ package app.callgate.android.ui
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -72,9 +73,11 @@ class HomeFragment : Fragment() {
     }
 
     private fun requestPermissionsAndStart() {
-        val permissionsRequired = listOf(
-//            Manifest.permission.ANSWER_PHONE_CALLS,
+        val permissionsRequired = listOfNotNull(
+            Manifest.permission.ANSWER_PHONE_CALLS?.takeIf { Build.VERSION.SDK_INT >= Build.VERSION_CODES.O },
             Manifest.permission.CALL_PHONE,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.READ_CALL_LOG,
         ).filter {
             ContextCompat.checkSelfPermission(
                 requireContext(),

@@ -8,7 +8,10 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.telecom.TelecomManager
+import android.telephony.TelephonyManager
 import androidx.core.app.ActivityCompat
+import java.lang.reflect.Method
+
 
 class CallsService(
     private val context: Context
@@ -36,7 +39,8 @@ class CallsService(
     @SuppressLint("MissingPermission")
     fun endCall() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
-            throw RuntimeException("Not supported")
+            endCallReflection()
+            return
         }
 
         if (!hasAnswerPermissions()) {
@@ -44,6 +48,31 @@ class CallsService(
         }
 
         telecomManager.endCall()
+    }
+
+    private fun endCallReflection() {
+        try {
+            // Get the getITelephony() method
+            val telephonyManager =
+                context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+            val telephonyManagerClass = Class.forName(telephonyManager.javaClass.getName())
+            val getITelephonyMethod: Method =
+                telephonyManagerClass.getDeclaredMethod("getITelephony")
+            getITelephonyMethod.isAccessible = true
+
+            // Invoke getITelephony() to get the ITelephony interface
+            val telephonyInterface = getITelephonyMethod.invoke(telephonyManager)
+
+            // Get the endCall() method
+            val telephonyInterfaceClass = Class.forName(telephonyInterface.javaClass.getName())
+            val endCallMethod: Method = telephonyInterfaceClass.getDeclaredMethod("endCall")
+
+            // Invoke endCall()
+            endCallMethod.invoke(telephonyInterface)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            throw RuntimeException("Failed to end call", e)
+        }
     }
 
     private fun hasCallPermissions(): Boolean {
