@@ -1,9 +1,26 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
     <!-- Base application theme. -->
     <style name="Base.Theme.CallGate" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryDark</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/colorAccent</item>
+        <item name="colorSecondaryVariant">@color/techPurple</item>
+        <item name="colorOnSecondary">@color/white</item>
+
+        <!-- Status bar color for Lollipop and above -->
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+
+        <!-- Customize other theme attributes as needed -->
+        <item name="android:windowBackground">@color/white</item>
+        <!--        <item name="android:fontFamily">@font/roboto</item>-->
     </style>
 
     <style name="Theme.CallGate" parent="Base.Theme.CallGate" />
+
 </resources>

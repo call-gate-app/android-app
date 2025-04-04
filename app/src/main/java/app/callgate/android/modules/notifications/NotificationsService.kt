@@ -32,7 +32,7 @@ class NotificationsService(
         return NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
             .setContentTitle(context.getText(R.string.app_name))
             .setContentText(contentText)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setSmallIcon(R.drawable.ic_notification)
             .build()
     }
 

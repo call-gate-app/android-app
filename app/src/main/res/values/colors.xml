@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Primary and Dominant Colors -->
+    <color name="colorPrimary">#1E90FF</color>
+    <color name="colorPrimaryDark">#1E90FF</color>
+    <color name="colorAccent">#32CD32</color>
+
+    <!-- Accent Colors -->
+    <color name="actionOrange">#FF8C00</color>
+    <color name="techPurple">#6A5ACD</color>
+
+    <!-- Supporting Colors -->
+    <color name="white">#FFFFFF</color>
 </resources>
