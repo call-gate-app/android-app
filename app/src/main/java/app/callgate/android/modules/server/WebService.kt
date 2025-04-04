@@ -14,7 +14,8 @@ import app.callgate.android.R
 import app.callgate.android.extensions.configure
 import app.callgate.android.extensions.description
 import app.callgate.android.modules.notifications.NotificationsService
-import app.callgate.android.modules.server.routes.CallRoutes
+import app.callgate.android.modules.server.routes.CallsRoutes
+import app.callgate.android.modules.server.routes.WebhooksRoutes
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.toHttpDate
 import io.ktor.serialization.gson.gson
@@ -35,6 +36,7 @@ import io.ktor.server.response.respond
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 import io.ktor.util.date.GMTDate
+import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
 import kotlin.concurrent.thread
 
@@ -52,6 +54,7 @@ class WebService : Service() {
         }
     }
     private val wifiLock: WifiManager.WifiLock by lazy {
+        @Suppress("DEPRECATION")
         (getSystemService(Context.WIFI_SERVICE) as WifiManager).createWifiLock(
             WifiManager.WIFI_MODE_FULL_HIGH_PERF,
             this.javaClass.name
@@ -112,7 +115,10 @@ class WebService : Service() {
                 authenticate("auth-basic") {
                     route("/api/v1") {
                         route("/calls") {
-                            CallRoutes().register(this)
+                            CallsRoutes().register(this)
+                        }
+                        route("/webhooks") {
+                            WebhooksRoutes(get()).register(this)
                         }
                     }
                 }
@@ -133,6 +139,7 @@ class WebService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val notification = notificationsService.makeNotification(
             this,
+            NotificationsService.NOTIFICATION_ID_LOCAL_SERVICE,
             getString(
                 R.string.server_is_running_on_port_d,
                 port
@@ -153,6 +160,7 @@ class WebService : Service() {
         wakeLock.release()
         thread { server.stop() }
 
+        @Suppress("DEPRECATION")
         stopForeground(true)
 
         status.postValue(false)

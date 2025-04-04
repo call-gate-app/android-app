@@ -2,20 +2,19 @@ package app.callgate.android
 
 import android.app.Application
 import app.callgate.android.modules.calls.callsModule
+import app.callgate.android.modules.db.dbModule
 import app.callgate.android.modules.notifications.notificationsModule
-import app.callgate.android.modules.server.ServerService
+import app.callgate.android.modules.orchestrator.OrchestratorService
+import app.callgate.android.modules.orchestrator.orchestratorModule
 import app.callgate.android.modules.server.serverService
-import app.callgate.android.modules.settings.GeneralSettings
 import app.callgate.android.modules.settings.settingsModule
+import app.callgate.android.modules.webhooks.webhooksModule
 import org.koin.android.ext.android.get
-import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 
 class App : Application() {
-    private val settings: GeneralSettings by inject()
-
     override fun onCreate() {
         super.onCreate()
 
@@ -24,14 +23,15 @@ class App : Application() {
             androidContext(this@App)
             modules(
                 settingsModule,
+                dbModule,
                 notificationsModule,
                 serverService,
                 callsModule,
+                webhooksModule,
+                orchestratorModule,
             )
         }
 
-        if (settings.autostart) {
-            get<ServerService>().start(this)
-        }
+        get<OrchestratorService>().start(this, true)
     }
 }
