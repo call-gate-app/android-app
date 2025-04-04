@@ -2,7 +2,7 @@ package app.callgate.android.modules.server
 
 import app.callgate.android.modules.settings.KeyValueStorage
 import app.callgate.android.modules.settings.get
-import kotlin.random.Random
+import io.viascom.nanoid.NanoId
 
 class ServerSettings(
     private val storage: KeyValueStorage,
@@ -14,10 +14,9 @@ class ServerSettings(
         get() = storage.get<String?>(USERNAME)
             ?: "call"
 
-    @OptIn(ExperimentalStdlibApi::class)
     val password: String
         get() = storage.get<String?>(PASSWORD)
-            ?: Random.nextBytes(4).toHexString()
+            ?: NanoId.generate(size = 8)
                 .also { storage.set(PASSWORD, it) }
 
     companion object {
