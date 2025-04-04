@@ -2,8 +2,10 @@ package app.callgate.android
 
 import android.app.Application
 import app.callgate.android.modules.calls.callsModule
+import app.callgate.android.modules.db.dbModule
 import app.callgate.android.modules.notifications.notificationsModule
-import app.callgate.android.modules.server.ServerService
+import app.callgate.android.modules.orchestrator.OrchestratorService
+import app.callgate.android.modules.orchestrator.orchestratorModule
 import app.callgate.android.modules.server.serverService
 import app.callgate.android.modules.settings.GeneralSettings
 import app.callgate.android.modules.settings.settingsModule
@@ -24,14 +26,14 @@ class App : Application() {
             androidContext(this@App)
             modules(
                 settingsModule,
+                dbModule,
                 notificationsModule,
                 serverService,
                 callsModule,
+                orchestratorModule,
             )
         }
 
-        if (settings.autostart) {
-            get<ServerService>().start(this)
-        }
+        get<OrchestratorService>().start(this, true)
     }
 }

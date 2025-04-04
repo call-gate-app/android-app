@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -55,6 +56,7 @@ dependencies {
     val coroutinesVersion = "1.9.0"
     val ktorVersion = "3.0.3"
     val koinVersion = "4.0.4"
+    val room_version = "2.6.1"
 
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.appcompat:appcompat:1.7.0")
@@ -78,6 +80,12 @@ dependencies {
 
     // Koin for Android
     implementation("io.insert-koin:koin-android:$koinVersion")
+
+    // Room
+    implementation("androidx.room:room-runtime:$room_version")
+    // If this project uses any Kotlin source, use Kotlin Symbol Processing (KSP)
+    // See Add the KSP plugin to your project
+    ksp("androidx.room:room-compiler:$room_version")
 
     // Nanoid
     implementation("io.viascom.nanoid:nanoid:1.0.1")
