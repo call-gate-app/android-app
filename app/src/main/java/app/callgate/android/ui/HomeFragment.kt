@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import app.callgate.android.R
 import app.callgate.android.databinding.FragmentHomeBinding
+import app.callgate.android.modules.orchestrator.OrchestratorService
 import app.callgate.android.modules.server.ServerService
 import app.callgate.android.ui.settings.SettingsFragment
 import org.koin.android.ext.android.inject
@@ -22,7 +23,9 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private val serverService: ServerService by inject()
+    private val orchestratorSvc: OrchestratorService by inject()
+    private val serverSvc: ServerService by inject()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,7 +49,7 @@ class HomeFragment : Fragment() {
             actionStart(binding.toggleOnline.isChecked)
         }
 
-        serverService.isActiveLiveData(requireContext()).observe(viewLifecycleOwner) {
+        serverSvc.isActiveLiveData().observe(viewLifecycleOwner) {
             binding.toggleOnline.isChecked = it
         }
     }
@@ -64,17 +67,17 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun stop() {
-        serverService.stop(requireContext())
+    private fun start() {
+        orchestratorSvc.start(requireContext(), false)
     }
 
-    private fun start() {
-        serverService.start(requireContext())
+    private fun stop() {
+        orchestratorSvc.stop(requireContext())
     }
 
     private fun requestPermissionsAndStart() {
         val permissionsRequired = listOfNotNull(
-            Manifest.permission.ANSWER_PHONE_CALLS?.takeIf { Build.VERSION.SDK_INT >= Build.VERSION_CODES.O },
+            Manifest.permission.ANSWER_PHONE_CALLS.takeIf { Build.VERSION.SDK_INT >= Build.VERSION_CODES.O },
             Manifest.permission.CALL_PHONE,
             Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.READ_CALL_LOG,
@@ -106,7 +109,7 @@ class HomeFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance() =
             HomeFragment()
     }
 }

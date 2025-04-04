@@ -3,13 +3,19 @@
     <Preference
         android:icon="@drawable/ic_server"
         app:fragment="app.callgate.android.ui.settings.ServerSettingsFragment"
-        app:summary="Port, credentials, etc..."
-        app:title="Server..." />
+        app:summary="@string/port_credentials_etc"
+        app:title="@string/server_dotdotdot" />
 
-    <PreferenceCategory app:title="General">
+    <Preference
+        android:icon="@drawable/ic_webhook"
+        app:fragment="app.callgate.android.ui.settings.WebhooksSettingsFragment"
+        app:summary="@string/retries_signing_etc"
+        app:title="@string/webhooks_dotdotdot" />
+
+    <PreferenceCategory app:title="@string/general">
         <SwitchPreference
             app:key="general.autostart"
-            app:title="Autostart" />
+            app:title="@string/autostart" />
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/information">

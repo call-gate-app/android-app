@@ -51,6 +51,7 @@ class PreferencesStorage(
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     private fun <T> getFallback(typeOfT: Type, key: String) = when (typeOfT) {
         java.lang.Long::class.java -> preferences.getLong("${prefix}.${key}", 0) as T
         Integer::class.java -> preferences.getInt("${prefix}.${key}", 0) as T
