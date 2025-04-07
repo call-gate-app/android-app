@@ -14,7 +14,7 @@ val PayloadSingingPlugin =
         val timestampHeaderName = pluginConfig.timestampHeaderName
         val secretKeyProvider = pluginConfig.secretKeyProvider
 
-        transformRequestBody { request, content, bodyType ->
+        transformRequestBody { request, content, _ ->
             if (content !is OutgoingContent) {
                 return@transformRequestBody null
             }

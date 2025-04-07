@@ -13,11 +13,21 @@ import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
+import app.callgate.android.BuildConfig
+import app.callgate.android.R
+import app.callgate.android.extensions.configure
+import app.callgate.android.modules.notifications.NotificationsService
+import app.callgate.android.modules.webhooks.TemporaryStorage
+import app.callgate.android.modules.webhooks.WebhooksSettings
+import app.callgate.android.modules.webhooks.domain.WebHookEventDTO
+import app.callgate.android.modules.webhooks.plugins.PayloadSingingPlugin
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import io.ktor.client.HttpClient
+import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
@@ -34,7 +44,7 @@ class SendWebhookWorker(appContext: Context, params: WorkerParameters) :
     CoroutineWorker(appContext, params), KoinComponent {
 
     private val notificationsSvc: NotificationsService by inject()
-    private val logsSvc: LogsService by inject()
+//    private val logsSvc: LogsService by inject()
 
     private val settings: WebhooksSettings by inject()
     private val storage: TemporaryStorage by inject()
@@ -46,29 +56,29 @@ class SendWebhookWorker(appContext: Context, params: WorkerParameters) :
         } ?: inputData.getString("data")
 
         if (payload == null) {
-            logsSvc.insert(
-                priority = LogEntry.Priority.ERROR,
-                module = NAME,
-                message = "Empty payload",
-                context = mapOf(
-                    "url" to inputData.getString(INPUT_URL),
-                    "storageKey" to inputData.getString(INPUT_STORAGE_KEY),
-                )
-            )
+//            logsSvc.insert(
+//                priority = LogEntry.Priority.ERROR,
+//                module = NAME,
+//                message = "Empty payload",
+//                context = mapOf(
+//                    "url" to inputData.getString(INPUT_URL),
+//                    "storageKey" to inputData.getString(INPUT_STORAGE_KEY),
+//                )
+//            )
             return ListenableWorker.Result.failure()
         }
 
         return when (val result = sendData(payload)) {
             Result.Success -> {
-                logsSvc.insert(
-                    priority = LogEntry.Priority.INFO,
-                    module = NAME,
-                    message = "Webhook sent successfully",
-                    context = mapOf(
-                        "url" to inputData.getString(INPUT_URL),
-                        "data" to payload,
-                    )
-                )
+//                logsSvc.insert(
+//                    priority = LogEntry.Priority.INFO,
+//                    module = NAME,
+//                    message = "Webhook sent successfully",
+//                    context = mapOf(
+//                        "url" to inputData.getString(INPUT_URL),
+//                        "data" to payload,
+//                    )
+//                )
 
                 storageKey?.let {
                     storage.remove(it)
@@ -77,15 +87,15 @@ class SendWebhookWorker(appContext: Context, params: WorkerParameters) :
             }
 
             is Result.Failure -> {
-                logsSvc.insert(
-                    priority = LogEntry.Priority.ERROR,
-                    module = NAME,
-                    message = "Webhook failed: ${result.error}",
-                    context = mapOf(
-                        "url" to inputData.getString(INPUT_URL),
-                        "data" to payload,
-                    )
-                )
+//                logsSvc.insert(
+//                    priority = LogEntry.Priority.ERROR,
+//                    module = NAME,
+//                    message = "Webhook failed: ${result.error}",
+//                    context = mapOf(
+//                        "url" to inputData.getString(INPUT_URL),
+//                        "data" to payload,
+//                    )
+//                )
 
                 storageKey?.let {
                     storage.remove(it)
@@ -94,15 +104,15 @@ class SendWebhookWorker(appContext: Context, params: WorkerParameters) :
             }
 
             is Result.Retry -> {
-                logsSvc.insert(
-                    priority = LogEntry.Priority.WARN,
-                    module = NAME,
-                    message = "Webhook failed with retry: ${result.reason}",
-                    context = mapOf(
-                        "url" to inputData.getString(INPUT_URL),
-                        "data" to payload,
-                    )
-                )
+//                logsSvc.insert(
+//                    priority = LogEntry.Priority.WARN,
+//                    module = NAME,
+//                    message = "Webhook failed with retry: ${result.reason}",
+//                    context = mapOf(
+//                        "url" to inputData.getString(INPUT_URL),
+//                        "data" to payload,
+//                    )
+//                )
                 ListenableWorker.Result.retry()
             }
         }
@@ -201,7 +211,6 @@ class SendWebhookWorker(appContext: Context, params: WorkerParameters) :
                     workDataOf(
                         INPUT_URL to url,
                         INPUT_STORAGE_KEY to data.id,
-//                        INPUT_DATA to gson.toJson(data),
                     )
                 )
                 .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
@@ -229,6 +238,5 @@ class SendWebhookWorker(appContext: Context, params: WorkerParameters) :
 
         private const val INPUT_URL = "url"
         private const val INPUT_STORAGE_KEY = "storageKey"
-//        private const val INPUT_DATA = "data"
     }
 }

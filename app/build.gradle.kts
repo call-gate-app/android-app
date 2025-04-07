@@ -62,7 +62,7 @@ dependencies {
     val ktorVersion = "3.0.3"
     val koinVersion = "4.0.4"
     val roomVersion = "2.6.1"
-    val workVersion = "2.10.0"
+    val workVersion = "2.9.1"
 
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.appcompat:appcompat:1.7.0")
@@ -83,6 +83,10 @@ dependencies {
     implementation("io.ktor:ktor-serialization-gson:$ktorVersion")
     implementation("io.ktor:ktor-server-call-logging:$ktorVersion")
     implementation("io.ktor:ktor-server-auth:$ktorVersion")
+
+    implementation("io.ktor:ktor-client-core:$ktorVersion")
+    implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
+    implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
 
     // Koin for Android
     implementation("io.insert-koin:koin-android:$koinVersion")
