@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
+    id("androidx.room")
 }
 
 android {
@@ -16,6 +17,10 @@ android {
         versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        room {
+            schemaDirectory("$projectDir/schemas")
+        }
     }
     signingConfigs {
         create("release") {
@@ -56,7 +61,8 @@ dependencies {
     val coroutinesVersion = "1.9.0"
     val ktorVersion = "3.0.3"
     val koinVersion = "4.0.4"
-    val room_version = "2.6.1"
+    val roomVersion = "2.6.1"
+    val workVersion = "2.10.0"
 
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.appcompat:appcompat:1.7.0")
@@ -82,10 +88,13 @@ dependencies {
     implementation("io.insert-koin:koin-android:$koinVersion")
 
     // Room
-    implementation("androidx.room:room-runtime:$room_version")
+    implementation("androidx.room:room-runtime:$roomVersion")
     // If this project uses any Kotlin source, use Kotlin Symbol Processing (KSP)
     // See Add the KSP plugin to your project
-    ksp("androidx.room:room-compiler:$room_version")
+    ksp("androidx.room:room-compiler:$roomVersion")
+
+    // WorkManager
+    implementation("androidx.work:work-runtime-ktx:$workVersion")
 
     // Nanoid
     implementation("io.viascom.nanoid:nanoid:1.0.1")

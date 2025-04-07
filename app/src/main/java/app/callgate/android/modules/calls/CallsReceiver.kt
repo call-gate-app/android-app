@@ -7,11 +7,14 @@ import android.telephony.TelephonyManager
 import android.util.Log
 
 
+
 class CallsReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (!intent.action.equals(TelephonyManager.ACTION_PHONE_STATE_CHANGED)) return
 
         val state = intent.getStringExtra(TelephonyManager.EXTRA_STATE)
+
+        @Suppress("DEPRECATION")
         val incomingNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER)
 
 //        Log.d(

@@ -49,7 +49,7 @@ class HomeFragment : Fragment() {
             actionStart(binding.toggleOnline.isChecked)
         }
 
-        serverSvc.isActiveLiveData(requireContext()).observe(viewLifecycleOwner) {
+        serverSvc.isActiveLiveData().observe(viewLifecycleOwner) {
             binding.toggleOnline.isChecked = it
         }
     }
@@ -109,7 +109,7 @@ class HomeFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance() =
             HomeFragment()
     }
 }

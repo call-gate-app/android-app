@@ -52,6 +52,7 @@ class WebService : Service() {
         }
     }
     private val wifiLock: WifiManager.WifiLock by lazy {
+        @Suppress("DEPRECATION")
         (getSystemService(Context.WIFI_SERVICE) as WifiManager).createWifiLock(
             WifiManager.WIFI_MODE_FULL_HIGH_PERF,
             this.javaClass.name
@@ -153,6 +154,7 @@ class WebService : Service() {
         wakeLock.release()
         thread { server.stop() }
 
+        @Suppress("DEPRECATION")
         stopForeground(true)
 
         status.postValue(false)

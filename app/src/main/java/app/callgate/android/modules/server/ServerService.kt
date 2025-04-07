@@ -11,5 +11,5 @@ class ServerService {
         WebService.stop(context)
     }
 
-    fun isActiveLiveData(context: Context) = WebService.STATUS
+    fun isActiveLiveData() = WebService.STATUS
 }

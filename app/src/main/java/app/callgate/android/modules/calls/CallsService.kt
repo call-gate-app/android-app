@@ -32,14 +32,14 @@ class CallsService(
     }
 
     @SuppressLint("MissingPermission")
+    @Suppress("DEPRECATION")
     fun getCall(): CallDetails {
         if (!hasReadPhoneStatePermissions()) {
             throw RuntimeException("Permission not granted")
         }
 
         // Get current call state
-        val callState = telephonyManager.callState
-        return when (callState) {
+        return when (val callState = telephonyManager.callState) {
             TelephonyManager.CALL_STATE_IDLE -> CallDetails(null, CallState.Idle)
             TelephonyManager.CALL_STATE_RINGING -> CallDetails(
                 telephonyManager.line1Number,
@@ -65,6 +65,7 @@ class CallsService(
             throw RuntimeException("Permission not granted")
         }
 
+        @Suppress("DEPRECATION")
         return telecomManager.endCall()
     }
 
