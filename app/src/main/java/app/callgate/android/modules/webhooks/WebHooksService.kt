@@ -21,14 +21,14 @@ class WebHooksService(
 //    private val gatewaySettings: GatewaySettings,
     private val webhooksSettings: WebhooksSettings,
 ) : KoinComponent {
-    private val eventsReceiver by lazy { EventsReceiver() }
+//    private val eventsReceiver by lazy { EventsReceiver() }
 
     fun start(context: Context) {
-        eventsReceiver.start()
+//        eventsReceiver.start()
     }
 
     fun stop(context: Context) {
-        eventsReceiver.stop()
+//        eventsReceiver.stop()
     }
 
     fun select(source: EntitySource): List<WebHookDTO> {

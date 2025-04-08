@@ -36,7 +36,7 @@ class CallsRoutes : KoinComponent {
 
         delete("") {
             if (!callsService.endCall()) {
-                call.respond(HttpStatusCode.InternalServerError, "Failed to end call")
+                throw RuntimeException("Failed to end call")
             }
             call.respond(HttpStatusCode.NoContent)
         }

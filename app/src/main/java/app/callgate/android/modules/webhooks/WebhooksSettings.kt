@@ -11,7 +11,7 @@ class WebhooksSettings(
         get() = storage.get<Boolean>(INTERNET_REQUIRED) ?: true
 
     val retryCount: Int
-        get() = storage.get<Int>(RETRY_COUNT) ?: 15
+        get() = storage.get<Int>(RETRY_COUNT) ?: 1
 
     val signingKey: String
         get() = storage.get<String>(SIGNING_KEY)
