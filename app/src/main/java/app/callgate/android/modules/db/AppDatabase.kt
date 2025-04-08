@@ -5,6 +5,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import app.callgate.android.modules.webhooks.db.WebHook
+import app.callgate.android.modules.webhooks.db.WebHooksDao
 
 @Database(
     entities = [
@@ -17,6 +18,8 @@ import app.callgate.android.modules.webhooks.db.WebHook
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
+    abstract fun webhooksDao(): WebHooksDao
+
     companion object {
         fun getDatabase(context: android.content.Context): AppDatabase {
             return Room.databaseBuilder(

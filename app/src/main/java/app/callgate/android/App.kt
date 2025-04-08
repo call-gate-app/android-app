@@ -3,12 +3,14 @@ package app.callgate.android
 import android.app.Application
 import app.callgate.android.modules.calls.callsModule
 import app.callgate.android.modules.db.dbModule
+import app.callgate.android.modules.events.eventBusModule
 import app.callgate.android.modules.notifications.notificationsModule
 import app.callgate.android.modules.orchestrator.OrchestratorService
 import app.callgate.android.modules.orchestrator.orchestratorModule
 import app.callgate.android.modules.server.serverService
 import app.callgate.android.modules.settings.GeneralSettings
 import app.callgate.android.modules.settings.settingsModule
+import app.callgate.android.modules.webhooks.webhooksModule
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
@@ -27,9 +29,11 @@ class App : Application() {
             modules(
                 settingsModule,
                 dbModule,
+                eventBusModule,
                 notificationsModule,
                 serverService,
                 callsModule,
+                webhooksModule,
                 orchestratorModule,
             )
         }

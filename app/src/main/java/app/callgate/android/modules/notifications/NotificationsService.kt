@@ -16,7 +16,7 @@ class NotificationsService(
                 NotificationManager
 
     private val icons = mapOf(
-        NOTIFICATION_ID_LOCAL_SERVICE to R.drawable.notif_server,
+        NOTIFICATION_ID_LOCAL_SERVICE to R.drawable.ic_notification,
         NOTIFICATION_ID_WEBHOOK_WORKER to R.drawable.notif_webhook,
     )
 
