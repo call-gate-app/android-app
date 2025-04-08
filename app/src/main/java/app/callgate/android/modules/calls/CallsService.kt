@@ -12,11 +12,16 @@ import android.telephony.TelephonyManager
 import androidx.core.app.ActivityCompat
 import app.callgate.android.modules.calls.domain.CallDetails
 import app.callgate.android.modules.calls.domain.CallState
+import app.callgate.android.modules.calls.events.CallEvent
+import app.callgate.android.modules.calls.webhooks.CallEventPayload
+import app.callgate.android.modules.webhooks.WebHooksService
+import app.callgate.android.modules.webhooks.domain.WebHookEvent
 import java.lang.reflect.Method
 
 
 class CallsService(
-    private val context: Context
+    private val context: Context,
+    private val webHooksService: WebHooksService,
 ) {
     private val telephonyManager: TelephonyManager =
         context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
@@ -67,6 +72,19 @@ class CallsService(
 
         @Suppress("DEPRECATION")
         return telecomManager.endCall()
+    }
+
+    fun processEvent(event: CallEvent) {
+        val webhookEvent = when (event.type) {
+            CallEvent.Type.Ringing -> WebHookEvent.CallRinging
+            CallEvent.Type.Started -> WebHookEvent.CallStarted
+            CallEvent.Type.Ended -> WebHookEvent.CallEnded
+        }
+
+        webHooksService.emit(
+            webhookEvent,
+            CallEventPayload(event.phoneNumber)
+        )
     }
 
     private fun endCallReflection(): Boolean {

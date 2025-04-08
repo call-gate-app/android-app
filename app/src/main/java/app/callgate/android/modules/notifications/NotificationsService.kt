@@ -23,7 +23,7 @@ class NotificationsService(
     init {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = context.getString(R.string.app_name)
-            val descriptionText = context.getString(R.string.local_server_notifications)
+            val descriptionText = context.getString(R.string.call_gate_notifications)
             val importance = NotificationManager.IMPORTANCE_LOW
             val mChannel = NotificationChannel(NOTIFICATION_CHANNEL_ID, name, importance)
             mChannel.description = descriptionText

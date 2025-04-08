@@ -6,8 +6,8 @@ enum class WebHookEvent {
     @SerializedName("call:ringing")
     CallRinging,
 
-    @SerializedName("call:active")
-    CallActive,
+    @SerializedName("call:started")
+    CallStarted,
 
     @SerializedName("call:ended")
     CallEnded,

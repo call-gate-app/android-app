@@ -5,10 +5,14 @@ import android.content.Context
 import android.content.Intent
 import android.telephony.TelephonyManager
 import android.util.Log
+import app.callgate.android.modules.calls.events.CallEvent
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 
+class CallsReceiver : BroadcastReceiver(), KoinComponent {
+    private val callsService: CallsService by inject()
 
-class CallsReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (!intent.action.equals(TelephonyManager.ACTION_PHONE_STATE_CHANGED)) return
 
@@ -24,15 +28,31 @@ class CallsReceiver : BroadcastReceiver() {
 //            }"
 //        )
 
-        if (state == TelephonyManager.EXTRA_STATE_RINGING) {
-            // Phone ringing
-            Log.d("CallsReceiver", "Incoming call from $incomingNumber")
-        } else if (state == TelephonyManager.EXTRA_STATE_OFFHOOK) {
-            // Call active
-            Log.d("CallsReceiver", "Call active with $incomingNumber")
-        } else if (state == TelephonyManager.EXTRA_STATE_IDLE) {
-            // Call ended
-            Log.d("CallsReceiver", "Call ended with $incomingNumber")
+        val event = when (state) {
+            TelephonyManager.EXTRA_STATE_RINGING -> {
+                // Phone ringing
+                Log.d("CallsReceiver", "Incoming call from $incomingNumber")
+                CallEvent(CallEvent.Type.Ringing, incomingNumber)
+            }
+
+            TelephonyManager.EXTRA_STATE_OFFHOOK -> {
+                // Call active
+                Log.d("CallsReceiver", "Call active with $incomingNumber")
+                CallEvent(CallEvent.Type.Started, incomingNumber)
+            }
+
+            TelephonyManager.EXTRA_STATE_IDLE -> {
+                // Call ended
+                Log.d("CallsReceiver", "Call ended with $incomingNumber")
+                CallEvent(CallEvent.Type.Ended, incomingNumber)
+            }
+
+            else -> {
+                Log.d("CallsReceiver", "Unknown state $state")
+                return
+            }
         }
+
+        callsService.processEvent(event)
     }
 }
