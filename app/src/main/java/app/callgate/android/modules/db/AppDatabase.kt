@@ -23,7 +23,7 @@ abstract class AppDatabase : RoomDatabase() {
     companion object {
         fun getDatabase(context: android.content.Context): AppDatabase {
             return Room.databaseBuilder(
-                context,
+                context.applicationContext,
                 AppDatabase::class.java,
                 "db.sqlite"
             )

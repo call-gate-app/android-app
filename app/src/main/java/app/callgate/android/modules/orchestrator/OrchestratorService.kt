@@ -43,7 +43,16 @@ class OrchestratorService(
     }
 
     fun stop(context: Context) {
-        webHooksSvc.stop(context)
-        serverSvc.stop(context)
+        try {
+            webHooksSvc.stop(context)
+        } catch (e: Throwable) {
+            Log.e("OrchestratorService", "Failed to stop webhooks service", e)
+        }
+
+        try {
+            serverSvc.stop(context)
+        } catch (e: Throwable) {
+            Log.e("OrchestratorService", "Failed to stop server service", e)
+        }
     }
 }

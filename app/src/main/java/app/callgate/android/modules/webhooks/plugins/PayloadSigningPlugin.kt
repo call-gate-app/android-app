@@ -7,8 +7,8 @@ import io.ktor.http.content.TextContent
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
-val PayloadSingingPlugin =
-    createClientPlugin("PayloadSingingPlugin", ::PayloadSingingPluginConfig) {
+val PayloadSigningPlugin =
+    createClientPlugin("PayloadSigningPlugin", ::PayloadSigningPluginConfig) {
         val algorithm = pluginConfig.hmacAlgorithm
         val headerName = pluginConfig.signatureHeaderName
         val timestampHeaderName = pluginConfig.timestampHeaderName
@@ -39,7 +39,7 @@ val PayloadSingingPlugin =
         }
     }
 
-class PayloadSingingPluginConfig {
+class PayloadSigningPluginConfig {
     var secretKeyProvider: () -> String? = { null }
     var signatureHeaderName: String = "X-Signature"
     var timestampHeaderName: String = "X-Timestamp"

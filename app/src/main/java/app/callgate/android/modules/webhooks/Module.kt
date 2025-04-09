@@ -7,4 +7,4 @@ val webhooksModule = module {
     singleOf(::WebHooksService)
 }
 
-val MODULE_NAME = "webhooks"
+private const val MODULE_NAME = "webhooks"

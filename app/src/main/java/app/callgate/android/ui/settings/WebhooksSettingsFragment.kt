@@ -13,19 +13,19 @@ class WebhooksSettingsFragment : BasePreferenceFragment() {
     }
 
     override fun onDisplayPreferenceDialog(preference: Preference) {
-        if (preference.key == "webhooks.retry_count") {
-            (preference as EditTextPreference).setOnBindEditTextListener {
-                it.inputType = InputType.TYPE_CLASS_NUMBER
-                it.setSelectAllOnFocus(true)
-                it.selectAll()
+        when (preference.key) {
+            "webhooks.retry_count" -> {
+                (preference as EditTextPreference).setOnBindEditTextListener {
+                    it.inputType = InputType.TYPE_CLASS_NUMBER
+                    configureEditText(it)
+                }
             }
-        }
 
-        if (preference.key == "webhooks.signing_key") {
-            (preference as EditTextPreference).setOnBindEditTextListener {
-                it.inputType = InputType.TYPE_CLASS_TEXT
-                it.setSelectAllOnFocus(true)
-                it.selectAll()
+            "webhooks.signing_key" -> {
+                (preference as EditTextPreference).setOnBindEditTextListener {
+                    it.inputType = InputType.TYPE_CLASS_TEXT
+                    configureEditText(it)
+                }
             }
         }
 

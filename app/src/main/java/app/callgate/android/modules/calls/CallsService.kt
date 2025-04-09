@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Build
 import android.telecom.TelecomManager
 import android.telephony.TelephonyManager
+import android.util.Log
 import androidx.core.app.ActivityCompat
 import app.callgate.android.modules.calls.domain.CallDetails
 import app.callgate.android.modules.calls.domain.CallState
@@ -81,10 +82,14 @@ class CallsService(
             CallEvent.Type.Ended -> WebHookEvent.CallEnded
         }
 
-        webHooksService.emit(
-            webhookEvent,
-            CallEventPayload(event.phoneNumber)
-        )
+        try {
+            webHooksService.emit(
+                webhookEvent,
+                CallEventPayload(event.phoneNumber)
+            )
+        } catch (th: Throwable) {
+            Log.e("CallsService", "Failed to emit webhook event", th)
+        }
     }
 
     private fun endCallReflection(): Boolean {

@@ -18,7 +18,7 @@
         <EditTextPreference
             android:icon="@drawable/ic_signing_key"
             app:enableCopying="true"
-            app:key="webhooks.signing_key"
+            android:key="webhooks.signing_key"
             app:title="@string/signing_key"
             app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>

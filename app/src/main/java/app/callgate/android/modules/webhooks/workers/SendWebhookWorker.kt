@@ -20,7 +20,7 @@ import app.callgate.android.modules.notifications.NotificationsService
 import app.callgate.android.modules.webhooks.TemporaryStorage
 import app.callgate.android.modules.webhooks.WebhooksSettings
 import app.callgate.android.modules.webhooks.domain.WebHookEventDTO
-import app.callgate.android.modules.webhooks.plugins.PayloadSingingPlugin
+import app.callgate.android.modules.webhooks.plugins.PayloadSigningPlugin
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import io.ktor.client.HttpClient
@@ -69,7 +69,7 @@ class SendWebhookWorker(appContext: Context, params: WorkerParameters) :
         }
 
         return when (val result = sendData(payload)) {
-            Result.Success -> {
+            SendResult.Success -> {
 //                logsSvc.insert(
 //                    priority = LogEntry.Priority.INFO,
 //                    module = NAME,
@@ -86,7 +86,7 @@ class SendWebhookWorker(appContext: Context, params: WorkerParameters) :
                 ListenableWorker.Result.success()
             }
 
-            is Result.Failure -> {
+            is SendResult.Failure -> {
 //                logsSvc.insert(
 //                    priority = LogEntry.Priority.ERROR,
 //                    module = NAME,
@@ -103,7 +103,7 @@ class SendWebhookWorker(appContext: Context, params: WorkerParameters) :
                 ListenableWorker.Result.failure()
             }
 
-            is Result.Retry -> {
+            is SendResult.Retry -> {
 //                logsSvc.insert(
 //                    priority = LogEntry.Priority.WARN,
 //                    module = NAME,
@@ -118,16 +118,16 @@ class SendWebhookWorker(appContext: Context, params: WorkerParameters) :
         }
     }
 
-    private suspend fun sendData(payload: String): Result {
+    private suspend fun sendData(payload: String): SendResult {
         try {
             if (runAttemptCount >= settings.retryCount) {
-                return Result.Failure("Retry limit exceeded")
+                return SendResult.Failure("Retry limit exceeded")
             }
 
             val url = inputData.getString(INPUT_URL)
-                ?: return Result.Failure("Empty url")
+                ?: return SendResult.Failure("Empty url")
             val data = gson.fromJson(payload, JsonObject::class.java)
-                ?: return Result.Failure("Empty data")
+                ?: return SendResult.Failure("Empty data")
 
             val response = client.post(url) {
                 contentType(ContentType.Application.Json)
@@ -135,24 +135,24 @@ class SendWebhookWorker(appContext: Context, params: WorkerParameters) :
             }
 
             if (response.status.value !in 200..299) {
-                return Result.Retry("Status code: ${response.status.value}")
+                return SendResult.Retry("Status code: ${response.status.value}")
             }
 
-            Result.Success
+            SendResult.Success
         } catch (e: IllegalArgumentException) {
             e.printStackTrace()
-            return Result.Failure(e.message ?: e.toString())
+            return SendResult.Failure(e.message ?: e.toString())
         } catch (e: JSONException) {
             e.printStackTrace()
-            return Result.Failure(e.message ?: e.toString())
+            return SendResult.Failure(e.message ?: e.toString())
         } catch (e: Throwable) {
             e.printStackTrace()
-            return Result.Retry(e.message ?: e.toString())
+            return SendResult.Retry(e.message ?: e.toString())
         } finally {
             client.close()
         }
 
-        return Result.Success
+        return SendResult.Success
     }
 
     override suspend fun getForegroundInfo(): ForegroundInfo {
@@ -186,15 +186,15 @@ class SendWebhookWorker(appContext: Context, params: WorkerParameters) :
         install(DefaultRequest) {
             userAgent("${BuildConfig.APPLICATION_ID}/${BuildConfig.VERSION_NAME}")
         }
-        install(PayloadSingingPlugin) {
+        install(PayloadSigningPlugin) {
             secretKeyProvider = { settings.signingKey }
         }
     }
 
-    private sealed class Result {
-        object Success : Result()
-        class Failure(val error: String) : Result()
-        class Retry(val reason: String) : Result()
+    private sealed class SendResult {
+        data object Success : SendResult()
+        class Failure(val error: String) : SendResult()
+        class Retry(val reason: String) : SendResult()
     }
 
     companion object : KoinComponent {

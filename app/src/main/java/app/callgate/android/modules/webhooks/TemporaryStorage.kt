@@ -19,6 +19,6 @@ class TemporaryStorage(
     }
 
     companion object {
-        private val PREFIX = "storage."
+        private const val PREFIX = "storage."
     }
 }

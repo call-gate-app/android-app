@@ -14,7 +14,7 @@ class CallsReceiver : BroadcastReceiver(), KoinComponent {
     private val callsService: CallsService by inject()
 
     override fun onReceive(context: Context, intent: Intent) {
-        if (!intent.action.equals(TelephonyManager.ACTION_PHONE_STATE_CHANGED)) return
+        if (TelephonyManager.ACTION_PHONE_STATE_CHANGED != intent.action) return
 
         val state = intent.getStringExtra(TelephonyManager.EXTRA_STATE)
 
