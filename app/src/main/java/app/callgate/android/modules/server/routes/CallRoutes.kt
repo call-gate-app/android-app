@@ -1,6 +1,7 @@
 package app.callgate.android.modules.server.routes
 
 import app.callgate.android.modules.calls.CallsService
+import app.callgate.android.modules.calls.domain.CallState
 import app.callgate.android.modules.server.domain.PostCallsRequest
 import app.callgate.android.modules.server.domain.PostCallsResponse
 import io.ktor.http.HttpStatusCode
@@ -35,6 +36,15 @@ class CallRoutes : KoinComponent {
         }
 
         delete("") {
+            val currentCall = callsService.getCall()
+            if (currentCall.state == CallState.Idle) {
+                call.respond(
+                    HttpStatusCode.NotFound,
+                    mapOf("message" to "No ringing or active call")
+                )
+                return@delete
+            }
+
             if (!callsService.endCall()) {
                 call.respond(HttpStatusCode.InternalServerError, "Failed to end call")
             }
