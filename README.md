@@ -67,7 +67,7 @@ curl -X DELETE \
 ```
 **Response:**
 - `204 No Content`: Call terminated
-<!-- - `404 Not Found`: No active call -->
+- `404 Not Found`: No ringing or active call
 - `500 Internal Server Error`: Termination error
 
 ## 🔒 Important Notes
