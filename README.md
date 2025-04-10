@@ -11,6 +11,7 @@ CallGate provides programmatic control of phone calls through a REST API, specif
 ## 🌟 Features
 
 - 📲 Start/stop calls via HTTP requests
+- 📡 Webhooks for call state events
 - 🔐 Basic authentication protection
 - 📶 Local server operation (no internet required)
 - 🛠️ Simple JSON API structure
@@ -69,6 +70,43 @@ curl -X DELETE \
 - `204 No Content`: Call terminated
 <!-- - `404 Not Found`: No active call -->
 - `500 Internal Server Error`: Termination error
+
+## 📡 Webhooks
+
+Webhooks allow you to receive events related to call state changes. For now next events are supported:
+
+- `call:ringing`: Call is ringing
+- `call:started`: Call has started
+- `call:ended`: Call has ended
+
+### Prerequisites
+
+- The receiver of the webhook must use valid SSL certificate
+- The receiver of the webhook must be reachable from the device
+
+### API Endpoints
+
+Base URL: `http://<device-ip>:8084/api/v1/webhooks`
+
+| Method | Endpoint         | Description               | Request Body                                                        | Response      |
+| ------ | ---------------- | ------------------------- | ------------------------------------------------------------------- | ------------- |
+| POST   | `/`              | Create or replace webhook | `{ "event": "call:ringing", "url": "https://example.com/webhook" }` | `201 Created` |
+| GET    | `/webhooks`      | Retrieve all webhooks     |                                                                     | `200 OK`      |
+| DELETE | `/webhooks/{id}` | Delete a specific webhook |                                                                     | `200 OK`      |
+
+Webhook structure:
+
+```json
+{
+    "id": "1",
+    "event": "call:ringing",
+    "url": "https://example.com/webhook"
+}
+```
+
+The `id` field is optional and will be auto-generated if not provided.
+
+The webhooks are compatible with the [SMSGate webhooks](https://docs.sms-gate.app/features/webhooks/) including signing. The main difference is in the retry policy, by default the CallGate makes only two attempts to send a webhook because call events more dynamic than SMS ones. Also the linear retry policy is used instead of exponential backoff.
 
 ## 🔒 Important Notes
 
