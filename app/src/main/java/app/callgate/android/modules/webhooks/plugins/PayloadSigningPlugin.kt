@@ -46,15 +46,11 @@ class PayloadSigningPluginConfig {
     var hmacAlgorithm: String = "HmacSHA256"
 }
 
+@OptIn(ExperimentalStdlibApi::class)
 fun generateSignature(algorithm: String, secretKey: String, payload: String): String {
     val mac = Mac.getInstance(algorithm)
     val secretKeySpec = SecretKeySpec(secretKey.toByteArray(charset = Charsets.UTF_8), algorithm)
     mac.init(secretKeySpec)
     val hash = mac.doFinal(payload.toByteArray(charset = Charsets.UTF_8))
-
-    return hash.toHexString()
-}
-
-private fun ByteArray.toHexString(): String {
-    return joinToString("") { "%02x".format(it) }
+    return hash.toHexString(HexFormat.Default)
 }

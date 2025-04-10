@@ -7,5 +7,5 @@ val orchestratorModule = module {
     singleOf(::OrchestratorService)
 }
 
-private const val MODULE_NAME = "orchestrator"
+internal const val MODULE_NAME = "orchestrator"
 
