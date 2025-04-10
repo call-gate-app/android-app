@@ -137,8 +137,6 @@ class SendWebhookWorker(appContext: Context, params: WorkerParameters) :
             if (response.status.value !in 200..299) {
                 return SendResult.Retry("Status code: ${response.status.value}")
             }
-
-            SendResult.Success
         } catch (e: IllegalArgumentException) {
             e.printStackTrace()
             return SendResult.Failure(e.message ?: e.toString())

@@ -48,9 +48,9 @@ class PayloadSigningPluginConfig {
 
 fun generateSignature(algorithm: String, secretKey: String, payload: String): String {
     val mac = Mac.getInstance(algorithm)
-    val secretKeySpec = SecretKeySpec(secretKey.toByteArray(), algorithm)
+    val secretKeySpec = SecretKeySpec(secretKey.toByteArray(charset = Charsets.UTF_8), algorithm)
     mac.init(secretKeySpec)
-    val hash = mac.doFinal(payload.toByteArray())
+    val hash = mac.doFinal(payload.toByteArray(charset = Charsets.UTF_8))
 
     return hash.toHexString()
 }
