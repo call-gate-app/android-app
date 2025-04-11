@@ -68,7 +68,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun start() {
-        orchestratorSvc.start(requireContext(), false)
+        orchestratorSvc.start(requireContext(), autostart = false)
     }
 
     private fun stop() {

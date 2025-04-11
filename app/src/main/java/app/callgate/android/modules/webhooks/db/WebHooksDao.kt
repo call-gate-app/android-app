@@ -29,7 +29,7 @@ interface WebHooksDao {
         upsertAll(webHooks)
     }
 
-    @Query("DELETE FROM webHook WHERE id = :id AND source = :source")
+    @Query("DELETE FROM webHook WHERE source = :source AND id = :id")
     fun delete(source: EntitySource, id: String)
 
     @Query("DELETE FROM webHook WHERE source = :source")

@@ -27,7 +27,7 @@ class OrchestratorService(
                 && e is ForegroundServiceStartNotAllowedException
             ) {
                 Log.e(
-                    "OrchestratorService",
+                    MODULE_NAME,
                     "Can't start foreground services while the app is running in the background"
                 )
 //                logsSvc.insert(
@@ -46,13 +46,13 @@ class OrchestratorService(
         try {
             webHooksSvc.stop(context)
         } catch (e: Throwable) {
-            Log.e("OrchestratorService", "Failed to stop webhooks service", e)
+            Log.e(MODULE_NAME, "Failed to stop webhooks service", e)
         }
 
         try {
             serverSvc.stop(context)
         } catch (e: Throwable) {
-            Log.e("OrchestratorService", "Failed to stop server service", e)
+            Log.e(MODULE_NAME, "Failed to stop server service", e)
         }
     }
 }
