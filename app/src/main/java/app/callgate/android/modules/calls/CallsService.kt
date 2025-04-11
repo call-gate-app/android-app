@@ -9,14 +9,20 @@ import android.net.Uri
 import android.os.Build
 import android.telecom.TelecomManager
 import android.telephony.TelephonyManager
+import android.util.Log
 import androidx.core.app.ActivityCompat
 import app.callgate.android.modules.calls.domain.CallDetails
 import app.callgate.android.modules.calls.domain.CallState
+import app.callgate.android.modules.calls.events.CallEvent
+import app.callgate.android.modules.calls.webhooks.CallEventPayload
+import app.callgate.android.modules.webhooks.WebHooksService
+import app.callgate.android.modules.webhooks.domain.WebHookEvent
 import java.lang.reflect.Method
 
 
 class CallsService(
-    private val context: Context
+    private val context: Context,
+    private val webHooksService: WebHooksService,
 ) {
     private val telephonyManager: TelephonyManager =
         context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
@@ -32,14 +38,14 @@ class CallsService(
     }
 
     @SuppressLint("MissingPermission")
+    @Suppress("DEPRECATION")
     fun getCall(): CallDetails {
         if (!hasReadPhoneStatePermissions()) {
             throw RuntimeException("Permission not granted")
         }
 
         // Get current call state
-        val callState = telephonyManager.callState
-        return when (callState) {
+        return when (val callState = telephonyManager.callState) {
             TelephonyManager.CALL_STATE_IDLE -> CallDetails(null, CallState.Idle)
             TelephonyManager.CALL_STATE_RINGING -> CallDetails(
                 telephonyManager.line1Number,
@@ -65,7 +71,25 @@ class CallsService(
             throw RuntimeException("Permission not granted")
         }
 
+        @Suppress("DEPRECATION")
         return telecomManager.endCall()
+    }
+
+    fun processEvent(event: CallEvent) {
+        val webhookEvent = when (event.type) {
+            CallEvent.Type.Ringing -> WebHookEvent.CallRinging
+            CallEvent.Type.Started -> WebHookEvent.CallStarted
+            CallEvent.Type.Ended -> WebHookEvent.CallEnded
+        }
+
+        try {
+            webHooksService.emit(
+                webhookEvent,
+                CallEventPayload(event.phoneNumber)
+            )
+        } catch (th: Throwable) {
+            Log.e("CallsService", "Failed to emit webhook event", th)
+        }
     }
 
     private fun endCallReflection(): Boolean {

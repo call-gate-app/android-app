@@ -12,7 +12,7 @@ import io.ktor.server.routing.post
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class CallRoutes : KoinComponent {
+class CallsRoutes : KoinComponent {
     private val callsService: CallsService by inject()
 
     fun register(routing: Route) {
@@ -36,7 +36,7 @@ class CallRoutes : KoinComponent {
 
         delete("") {
             if (!callsService.endCall()) {
-                call.respond(HttpStatusCode.InternalServerError, "Failed to end call")
+                throw RuntimeException("Failed to end call")
             }
             call.respond(HttpStatusCode.NoContent)
         }
