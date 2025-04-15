@@ -1,6 +1,7 @@
 # 📞 CallGate
 
 [![Apache License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 **Call Management API for Android™**
 
 CallGate provides programmatic control of phone calls through a REST API, specifically designed for automation scenarios requiring basic call management without voice interaction.
