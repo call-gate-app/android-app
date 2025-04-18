@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Build
 
 class ServerService(
-    private val settings: ServerSettings,
+    val settings: ServerSettings,
 ) {
     fun start(context: Context) {
         settings.deviceId = settings.deviceId ?: getDeviceId(context)

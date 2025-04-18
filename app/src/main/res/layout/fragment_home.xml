@@ -4,9 +4,122 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="bottom"
     android:orientation="vertical"
     tools:context=".ui.HomeFragment">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        app:cardCornerRadius="16dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp">
+
+            <ImageView
+                android:id="@+id/imageServer"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_margin="4dp"
+                android:src="@drawable/ic_server"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <GridLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:columnCount="2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imageServer"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnSpan="2"
+                    android:text="@string/server"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_margin="4dp"
+                    android:text="@string/local_address" />
+
+                <TextView
+                    android:id="@+id/textLocalIP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_margin="4dp"
+                    android:text="@string/dots"
+                    tools:text="127.0.0.1:8080" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_margin="4dp"
+                    android:text="@string/public_address" />
+
+                <TextView
+                    android:id="@+id/textPublicIP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_margin="4dp"
+                    android:text="@string/dots"
+                    tools:text="127.0.0.1:8080" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_margin="4dp"
+                    android:text="@string/label_username" />
+
+                <TextView
+                    android:id="@+id/textLocalUsername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_margin="4dp"
+                    android:autoLink="web"
+                    tools:text="call" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_margin="4dp"
+                    android:text="@string/label_password" />
+
+                <TextView
+                    android:id="@+id/textLocalPassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_margin="4dp"
+                    android:autoLink="web"
+                    tools:text="1q2w3e4r" />
+            </GridLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
     <Button
         android:id="@+id/actionSettings"

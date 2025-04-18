@@ -3,12 +3,17 @@
     <string name="app_version_build">App version (build)</string>
     <string name="autostart">Autostart</string>
     <string name="call_gate_notifications">Call Gate Notifications</string>
+    <string name="copied_to_clipboard">Copied</string>
     <string name="credentials">Credentials</string>
+    <string name="dots">…</string>
+    <string name="failed_to_copy_to_clipboard">Failed to copy to clipboard</string>
     <string name="general">General</string>
     <string name="information">Information</string>
     <string name="is_not_a_valid_port_must_be_between_1024_and_65535">%1$s is not a valid port. Must be between 1024 and 65535</string>
     <string name="label_password">Password:</string>
     <string name="label_username">Username:</string>
+    <string name="local_address">Local address:</string>
+    <string name="n_a">N/A</string>
     <string name="offline">Offline</string>
     <string name="online">Online</string>
     <string name="password">Password</string>
