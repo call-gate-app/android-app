@@ -6,6 +6,7 @@
         android:name="android.hardware.telephony"
         android:required="true" />
 
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />

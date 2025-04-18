@@ -2,6 +2,7 @@ package app.callgate.android
 
 import android.app.Application
 import app.callgate.android.modules.calls.callsModule
+import app.callgate.android.modules.connection.connectionModule
 import app.callgate.android.modules.db.dbModule
 import app.callgate.android.modules.notifications.notificationsModule
 import app.callgate.android.modules.orchestrator.OrchestratorService
@@ -28,6 +29,7 @@ class App : Application() {
                 serverService,
                 callsModule,
                 webhooksModule,
+                connectionModule,
                 orchestratorModule,
             )
         }
