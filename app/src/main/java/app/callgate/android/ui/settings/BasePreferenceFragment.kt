@@ -7,6 +7,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.preference.PreferenceFragmentCompat
 
+
 abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

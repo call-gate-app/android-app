@@ -1,12 +1,14 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <Preference
+        app:key="navigation.server"
         android:icon="@drawable/ic_server"
         app:fragment="app.callgate.android.ui.settings.ServerSettingsFragment"
         app:summary="@string/port_credentials_etc"
         app:title="@string/server_dotdotdot" />
 
     <Preference
+        app:key="navigation.webhooks"
         android:icon="@drawable/ic_webhook"
         app:fragment="app.callgate.android.ui.settings.WebhooksSettingsFragment"
         app:summary="@string/retries_signing_etc"

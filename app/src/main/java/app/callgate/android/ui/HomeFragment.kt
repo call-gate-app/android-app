@@ -22,13 +22,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.text.toSpanned
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import app.callgate.android.R
 import app.callgate.android.databinding.FragmentHomeBinding
 import app.callgate.android.modules.connection.ConnectionViewModel
 import app.callgate.android.modules.orchestrator.OrchestratorService
 import app.callgate.android.modules.server.ServerService
 import app.callgate.android.modules.server.ServerViewModel
-import app.callgate.android.ui.settings.SettingsFragment
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -79,11 +79,7 @@ class HomeFragment : Fragment() {
         }
 
         binding.actionSettings.setOnClickListener {
-            parentFragmentManager
-                .beginTransaction()
-                .replace(R.id.container, SettingsFragment.newInstance())
-                .addToBackStack(null)
-                .commit()
+            findNavController().navigate(R.id.action_home_to_settings)
         }
 
         binding.toggleOnline.setOnClickListener {

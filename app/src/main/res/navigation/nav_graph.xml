@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="app.callgate.android.ui.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_home_to_settings"
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="app.callgate.android.ui.settings.SettingsFragment"
+        android:label="Settings">
+
+        <action
+            android:id="@+id/action_settings_to_server_settings"
+            app:destination="@id/serverSettingFragment" />
+
+        <action
+            android:id="@+id/action_settings_to_webhooks_settings"
+            app:destination="@id/webhooksSettingsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/serverSettingFragment"
+        android:name="app.callgate.android.ui.settings.ServerSettingsFragment"
+        android:label="Server Settings" />
+
+    <fragment
+        android:id="@+id/webhooksSettingsFragment"
+        android:name="app.callgate.android.ui.settings.WebhooksSettingsFragment"
+        android:label="Webhooks Settings" />
+</navigation>
