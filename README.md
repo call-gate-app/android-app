@@ -16,6 +16,7 @@ CallGate provides programmatic control of phone calls through a REST API, specif
   - [🚀 Core API Usage](#-core-api-usage)
     - [📞 Call Management](#-call-management)
       - [Start Call](#start-call)
+      - [Execute USSD Code](#execute-ussd-code)
       - [End Active Call](#end-active-call)
   - [📡 Webhook System](#-webhook-system)
     - [Events](#events)
@@ -79,6 +80,31 @@ curl -X POST \
 - `400 Bad Request`: Invalid number format
 - `401 Unauthorized`: Invalid credentials
 - `500 Internal Server Error`: Call failed
+
+#### Execute USSD Code
+
+To execute a USSD code, use the same `/calls` endpoint but provide the USSD code in the `phoneNumber` field.
+
+```http
+POST /calls
+```
+
+```bash
+curl -X POST \
+  -u "username:password" \
+  -H "Content-Type: application/json" \
+  -d '{"call": {"phoneNumber": "*123#"}}' \
+  http://device-ip:8084/api/v1/calls
+```
+
+**Important Note:** In the current version of the app, executing a USSD code via the API does not return any results. The API will respond with `200 OK` if the USSD code was successfully sent to the network, but you will not receive the USSD response (e.g., balance information).
+
+**Responses:**
+
+- `200 OK`: USSD code sent successfully (but no result returned)
+- `400 Bad Request`: Invalid USSD code format
+- `401 Unauthorized`: Invalid credentials
+- `500 Internal Server Error`: USSD execution failed
 
 #### End Active Call
 
