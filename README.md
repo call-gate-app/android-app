@@ -32,7 +32,7 @@ CallGate provides programmatic control of phone calls through a REST API, specif
 ## 🌟 Features
 
 - 📲 Call control via HTTP API
-- 📞 USSD support
+- 📞 USSD support (send-only, no response handling)
 - 📡 Real-time webhook notifications
 - 🔒 Basic authentication protection
 - 📶 Local server operation (no internet required)
@@ -83,7 +83,7 @@ curl -X POST \
 
 #### Execute USSD Code
 
-To execute a USSD code, use the same `/calls` endpoint but provide the USSD code in the `phoneNumber` field.
+To execute a USSD code, use the same `/calls` endpoint but provide the USSD code in the `phoneNumber` field, just like in the standard phone app.
 
 ```http
 POST /calls
@@ -218,6 +218,10 @@ We welcome contributions! Please:
 3. Commit changes (`git commit -m 'Add amazing feature'`)
 4. Push to branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
+
+**Areas for Contribution:**
+
+- USSD response handling - Currently the app can send USSD codes but doesn't receive or process the responses. If you're interested in implementing this feature, your contributions would be greatly appreciated!
 
 ## 📜 License
 
