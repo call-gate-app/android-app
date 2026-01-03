@@ -120,8 +120,9 @@ class HomeFragment : Fragment() {
         val permissionsRequired = listOfNotNull(
             Manifest.permission.ANSWER_PHONE_CALLS.takeIf { Build.VERSION.SDK_INT >= Build.VERSION_CODES.O },
             Manifest.permission.CALL_PHONE,
-            Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.READ_CALL_LOG,
+            Manifest.permission.READ_PHONE_NUMBERS.takeIf { Build.VERSION.SDK_INT >= Build.VERSION_CODES.O },
+            Manifest.permission.READ_PHONE_STATE,
         ).filter {
             ContextCompat.checkSelfPermission(
                 requireContext(),
