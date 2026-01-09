@@ -24,6 +24,8 @@ CallGate provides programmatic control of phone calls through a REST API, specif
     - [Example Payload](#example-payload)
     - [SMSGate Compatibility](#smsgate-compatibility)
   - [🔒 Security Best Practices](#-security-best-practices)
+  - [🛠️ Troubleshooting](#️-troubleshooting)
+    - [CORS Error Resolution](#cors-error-resolution)
   - [🌐 Related Projects](#-related-projects)
   - [📌 Project Status](#-project-status)
   - [🤝 Contributing](#-contributing)
@@ -196,6 +198,15 @@ curl -X DELETE \
 - Rotate credentials regularly
 - Restrict to trusted networks
 - Consider encryption for remote access
+
+## 🛠️ Troubleshooting
+
+### CORS Error Resolution
+
+- **Issue:** CORS errors occur when making API calls directly from a web browser.
+- **Root Cause:** CORS is disallowed by design for security reasons.
+- **Solution:** Proxy API requests through a backend server (the only supported resolution path).
+- **Note:** Direct web browser access to the CallGate API is not supported; backend proxying is required for web-based integrations.
 
 ## 🌐 Related Projects
 
